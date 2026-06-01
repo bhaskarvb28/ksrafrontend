@@ -1,12 +1,21 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import AppLayout from "@/app/layouts/AppLayout"
 
 import AuthGuard from "../guards/AuthGuard"
+
+import RoleGuard from "../guards/RoleGuard"
 
 import DashboardPage from "@/modules/dashboard/pages/Dashboard"
 
 import InvitesPage from "@/modules/Invites/pages/Invites"
 
-import { CompleteProfilePage } from "@/modules/profile/pages/CompleteProfilePage"
+import { CompleteProfilePage }
+from "@/modules/profile/pages/CompleteProfilePage"
+
+import { ROLE_CODES }
+from "@/modules/auth/types/role.types"
+import AcademiesPage from "@/modules/academies/pages/AcademiesPage"
 
 export const protectedRoutes = [
   {
@@ -37,16 +46,60 @@ export const protectedRoutes = [
         element: <AppLayout />,
 
         children: [
+          // ------------------------------------------------
+          // Dashboard
+          // ------------------------------------------------
+
           {
             path: "/dashboard",
 
             element: <DashboardPage />,
           },
 
-          {
-            path: "/invites",
+          // ------------------------------------------------
+          // Invites
+          // ------------------------------------------------
 
-            element: <InvitesPage />,
+          {
+            element: (
+              <RoleGuard
+                allowedRoles={[
+                  ROLE_CODES.SUPER_ADMIN,
+                  ROLE_CODES.STATE_ADMIN,
+                  ROLE_CODES.DISTRICT_ADMIN,
+                ]}
+              />
+            ),
+
+            children: [
+              {
+                path: "/invites",
+
+                element: <InvitesPage />,
+              },
+            ],
+          },
+
+          // ------------------------------------------------
+          // Academies
+          // ------------------------------------------------
+
+          {
+            element: (
+              <RoleGuard 
+                allowedRoles={[
+                  ROLE_CODES.DISTRICT_ADMIN,
+                ]}
+              />
+            ),
+
+            children: [
+              {
+                path: "/academies",
+
+                element: <AcademiesPage />
+              }
+            ]
           },
         ],
       },

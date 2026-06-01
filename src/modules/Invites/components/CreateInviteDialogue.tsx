@@ -17,6 +17,8 @@ import { Button } from "@/shared/components/ui/button"
 
 import { Input } from "@/shared/components/ui/input"
 
+import { useDistrictAdminAcademy } from "@/modules/academies/hooks/useDistrictAdminAcademies"
+
 import {
   Select,
   SelectContent,
@@ -128,6 +130,7 @@ export function CreateInviteDialog() {
 
   const shouldFetchStates = scopeType === "state"
   const shouldFetchDistricts = scopeType === "district"
+  const shouldFetchAcademies = scopeType === "academy"
 
   // ----------------------------------------------------------
   // States
@@ -143,6 +146,16 @@ export function CreateInviteDialog() {
   const { data: dynamicDistricts } = useDistricts({
     stateID,
     enabled: shouldFetchDistricts,
+  })
+
+  // ----------------------------------------------------------
+  // Academies
+  // ----------------------------------------------------------
+
+  const { data: dynamicAcademies } = useDistrictAdminAcademy({
+    limit: "all",
+
+    enabled: shouldFetchAcademies,
   })
 
   // ----------------------------------------------------------
@@ -360,6 +373,46 @@ export function CreateInviteDialog() {
                           value={String(district.id)}
                         >
                           {district.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+
+              {errors.scope_id && (
+                <p className="text-sm text-destructive">
+                  {errors.scope_id.message}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* ACADEMY */}
+
+          {scopeType === "academy" && (
+            <div className="space-y-3">
+              <div>
+                <label className="block text-sm font-medium">Academy</label>
+              </div>
+
+              <Controller
+                control={control}
+                name="scope_id"
+                render={({ field }) => (
+                  <Select
+                    disabled={isSubmitting}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select academy" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {dynamicAcademies?.data.items.map((academy) => (
+                        <SelectItem key={academy.id} value={academy.id}>
+                          {academy.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

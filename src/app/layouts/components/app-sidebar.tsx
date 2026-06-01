@@ -1,3 +1,5 @@
+// app-sidebar.tsx
+
 import * as React from "react"
 
 import { NavLink } from "react-router-dom"
@@ -18,22 +20,26 @@ import {
 
 import { HugeiconsIcon } from "@hugeicons/react"
 
-import { CommandIcon } from "@hugeicons/core-free-icons"
+import { CommandIcon }
+from "@hugeicons/core-free-icons"
 
-import { useAuthStore } from "@/shared/store/auth.store"
+import { useAuthStore }
+from "@/shared/store/auth.store"
 
-import { sidebarRoutes } from "@/app/router/routes/sidebar-routes"
+import { sidebarRoutes }
+from "@/app/router/routes/sidebar-routes"
 
-// const user = {
-//   name: "Bhaskar",
-//   email: "bhaskar@example.com",
-//   avatar: "/avatars/bhaskar.jpg",
-// }
+export function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const user =
+    useAuthStore((state) => state.user)
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const user = useAuthStore((state) => state.user)
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar
+      collapsible="offcanvas"
+      {...props}
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -48,7 +54,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   className="size-5!"
                 />
 
-                <span className="text-base font-semibold">KSRA</span>
+                <span className="text-base font-semibold">
+                  KSRA
+                </span>
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -56,7 +64,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
 
       <SidebarContent>
-        <NavMain items={sidebarRoutes} />
+        <NavMain
+          items={sidebarRoutes}
+          role={user.role.code}
+        />
       </SidebarContent>
 
       <SidebarFooter>

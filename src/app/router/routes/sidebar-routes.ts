@@ -1,13 +1,35 @@
+// sidebar-routes.ts
+
 import {
   DashboardSquare01Icon,
-  // ChartHistogramIcon,
-  // Folder01Icon,
-  // UserGroupIcon,
-  // Settings05Icon,
-  SentIcon
+  GlobalEducationIcon,
+  SentIcon,
 } from "@hugeicons/core-free-icons"
 
-export const sidebarRoutes = [
+import type { RoleCode }
+from "@/modules/auth/types/role.types"
+
+import { ROLE_CODES }
+from "@/modules/auth/types/role.types"
+
+type SidebarItem = {
+  title: string
+
+  path: string
+
+  icon: any
+
+  allowedRoles: RoleCode[]
+}
+
+type SidebarGroupType = {
+  title: string
+
+  items: SidebarItem[]
+}
+
+export const sidebarRoutes:
+  SidebarGroupType[] = [
   {
     title: "Workspace",
 
@@ -16,43 +38,41 @@ export const sidebarRoutes = [
         title: "Dashboard",
         path: "/dashboard",
         icon: DashboardSquare01Icon,
+
+        allowedRoles: [
+          ROLE_CODES.SUPER_ADMIN,
+          ROLE_CODES.STATE_ADMIN,
+          ROLE_CODES.DISTRICT_ADMIN,
+          ROLE_CODES.DISTRICT_COACH,
+          ROLE_CODES.ACADEMY_ADMIN,
+          ROLE_CODES.ACADEMY_COACH,
+          ROLE_CODES.PLAYER,
+        ],
       },
 
       {
         title: "Invites",
         path: "/invites",
         icon: SentIcon,
+
+        allowedRoles: [
+          ROLE_CODES.SUPER_ADMIN,
+          ROLE_CODES.STATE_ADMIN,
+          ROLE_CODES.DISTRICT_ADMIN,
+        ],
       },
 
-      // {
-      //   title: "Analytics",
-      //   path: "/analytics",
-      //   icon: ChartHistogramIcon,
-      // },
+      {
+        title: "Academies",
+        path: "/academies",
+        icon: GlobalEducationIcon,
 
-      // {
-      //   title: "Projects",
-      //   path: "/projects",
-      //   icon: Folder01Icon,
-      // },
+        allowedRoles: [
+          ROLE_CODES.SUPER_ADMIN,
+          ROLE_CODES.STATE_ADMIN,
+          ROLE_CODES.DISTRICT_ADMIN,
+        ],
+      },
     ],
   },
-
-  // {
-  //   title: "Management",
-
-  //   items: [
-  //     {
-  //       title: "Team",
-  //       path: "/team",
-  //       icon: UserGroupIcon,
-  //     },
-
-  //     {
-  //       title: "Settings",
-  //       path: "/settings",
-  //       icon: Settings05Icon,
-  //     },
-  //   ],
-  // },
 ]
