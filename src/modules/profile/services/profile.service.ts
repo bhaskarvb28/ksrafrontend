@@ -3,7 +3,7 @@ import { api } from "@/shared/lib/api"
 import type {
   CompleteStateAdminProfilePayload,
   CompleteDistrictAdminProfilePayload,
-} from "../types/profile.tyypes"
+} from "../types/profile.types"
 
 export async function completeStateAdminProfile(
   payload: CompleteStateAdminProfilePayload
