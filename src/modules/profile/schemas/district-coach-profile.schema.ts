@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const districtAdminProfileSchema =
+export const districtCoachProfileSchema =
   z
     .object({
       dpdp_consent:
@@ -25,7 +25,7 @@ export const districtAdminProfileSchema =
       }
     )
 
-export type DistrictAdminProfileSchema =
+export type DistrictCoachProfileSchema =
   z.infer<
-    typeof districtAdminProfileSchema
+    typeof districtCoachProfileSchema
   >

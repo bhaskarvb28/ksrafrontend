@@ -24,3 +24,13 @@ export async function completeDistrictAdminProfile(
     body: JSON.stringify(payload),
   })
 }
+
+export async function completeDistrictCoachProfile(
+  payload: CompleteDistrictCoachProfilePayload
+) {
+  return api("/me/profile", {
+    method: "PATCH",
+
+    body: JSON.stringify(payload),
+  })
+}

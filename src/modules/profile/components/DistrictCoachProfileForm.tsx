@@ -13,15 +13,15 @@ import { Input } from "@/shared/components/ui/input"
 import { Separator } from "@/shared/components/ui/separator"
 
 import {
-  districtAdminProfileSchema,
-  type DistrictAdminProfileSchema,
-} from "../schemas/district-admin-profile.schema"
+  districtCoachProfileSchema,
+  type DistrictCoachProfileSchema,
+} from "../schemas/district-coach-profile.schema"
 
-import { useCompleteDistrictAdminProfile } from "../hooks/useCompleteDistrictAdminProfile"
+import { useCompleteDistrictCoachProfile } from "../hooks/useCompleteDistrictCoachProfile"
 
-export function DistrictAdminProfileForm() {
+export function DistrictCoachProfileForm() {
   const mutation =
-    useCompleteDistrictAdminProfile()
+    useCompleteDistrictCoachProfile()
 
   const {
     register,
@@ -30,9 +30,9 @@ export function DistrictAdminProfileForm() {
     watch,
     formState: { errors },
   } =
-    useForm<DistrictAdminProfileSchema>({
+    useForm<DistrictCoachProfileSchema>({
       resolver: zodResolver(
-        districtAdminProfileSchema
+        districtCoachProfileSchema
       ),
 
       defaultValues: {
@@ -47,7 +47,7 @@ export function DistrictAdminProfileForm() {
     watch("dpdp_consent")
 
   function onSubmit(
-    values: DistrictAdminProfileSchema
+    values: DistrictCoachProfileSchema
   ) {
     mutation.mutate(values)
   }
@@ -63,7 +63,7 @@ export function DistrictAdminProfileForm() {
       <div className="space-y-5 rounded-3xl border border-border bg-card/40 p-5 backdrop-blur-xl">
         <div className="space-y-1">
           <h2 className="text-lg font-semibold text-foreground">
-            District Admin Profile
+            District Coach Profile
           </h2>
 
           <p className="text-sm text-muted-foreground">

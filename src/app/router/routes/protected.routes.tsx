@@ -23,6 +23,12 @@ export const protectedRoutes = [
         element: <CompleteProfilePage />,
       },
 
+      {
+        path: "/complete/coach-profile",
+
+        element: <CompleteProfilePage />,
+      },
+
       // ------------------------------------------------------
       // Main App Routes
       // ------------------------------------------------------
