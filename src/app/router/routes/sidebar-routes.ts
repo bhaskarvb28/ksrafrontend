@@ -59,6 +59,7 @@ export const sidebarRoutes:
           ROLE_CODES.SUPER_ADMIN,
           ROLE_CODES.STATE_ADMIN,
           ROLE_CODES.DISTRICT_ADMIN,
+          ROLE_CODES.ACADEMY_ADMIN,
         ],
       },
 

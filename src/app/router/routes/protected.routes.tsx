@@ -38,6 +38,12 @@ export const protectedRoutes = [
         element: <CompleteProfilePage />,
       },
 
+      {
+        path: "/complete/player-profile",
+
+        element: <CompleteProfilePage />,
+      },
+
       // ------------------------------------------------------
       // Main App Routes
       // ------------------------------------------------------
@@ -67,6 +73,7 @@ export const protectedRoutes = [
                   ROLE_CODES.SUPER_ADMIN,
                   ROLE_CODES.STATE_ADMIN,
                   ROLE_CODES.DISTRICT_ADMIN,
+                  ROLE_CODES.ACADEMY_ADMIN,
                 ]}
               />
             ),

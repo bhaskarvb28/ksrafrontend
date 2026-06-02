@@ -13,35 +13,37 @@ from "@/shared/lib/query-client"
 import { useAuthStore }
 from "@/shared/store/auth.store"
 
-import { completeDistrictCoachProfile }
+import { completePlayerProfile }
 from "../services/profile.service"
 
-export function useCompleteDistrictCoachProfile() {
+export function useCompletePlayerProfile() {
   return useMutation({
     mutationFn:
-      completeDistrictCoachProfile,
+      completePlayerProfile,
 
     async onSuccess() {
       toast.success(
         "Profile completed successfully"
       )
 
+      // Refetch latest user
       await queryClient.refetchQueries({
         queryKey: [
           "current-user",
         ],
       })
 
-      const profile =
+      // Update zustand profile
+      const currentProfile =
         useAuthStore
           .getState()
           .profile
 
-      if (profile) {
+      if (currentProfile) {
         useAuthStore
           .getState()
           .setProfile({
-            ...profile,
+            ...currentProfile,
 
             profile_completed:
               true,

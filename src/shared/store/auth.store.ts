@@ -21,6 +21,10 @@ type AuthState = {
     profile?: Profile | null
   ) => void
 
+  setProfile: (
+    profile: Profile | null
+  ) => void
+
   clearSession: () => void
 }
 
@@ -42,6 +46,13 @@ export const useAuthStore =
           set({
             token,
             user,
+            profile,
+          }),
+
+        setProfile: (
+          profile
+        ) =>
+          set({
             profile,
           }),
 

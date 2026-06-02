@@ -55,10 +55,15 @@ export function CreateInviteDialog() {
 
   const profile = useAuthStore((state) => state.profile)
 
+  const userRole = useAuthStore((state) => state.user?.role.code)
+
+  const isAcademyAdmin = userRole === "academy_admin"
+
   const stateID =
     profile && "state_id" in profile ? profile.state_id : undefined
-  // alert(user)
-  console.log(stateID)
+
+  const academyID =
+    profile && "academy_id" in profile ? profile.academy_id : undefined
 
   const {
     register,
@@ -74,7 +79,7 @@ export function CreateInviteDialog() {
       name: "",
       email: "",
       role: undefined,
-      scope_id: undefined,
+      scope_id: isAcademyAdmin ? academyID : undefined,
       scope_type: undefined,
     },
   })
@@ -92,13 +97,27 @@ export function CreateInviteDialog() {
   // Auto Select First Available Role
   // ----------------------------------------------------------
 
+  const filteredRoles = useMemo(() => {
+    if (!roles) {
+      return []
+    }
+
+    if (isAcademyAdmin) {
+      return roles.filter(
+        (role) => role.code === "player" || role.code === "academy_coach"
+      )
+    }
+
+    return roles
+  }, [roles, isAcademyAdmin])
+
   const defaultRole = useMemo(() => {
-    if (!roles?.length) {
+    if (!filteredRoles.length) {
       return null
     }
 
-    return roles[0]
-  }, [roles])
+    return filteredRoles[0]
+  }, [filteredRoles])
 
   useEffect(() => {
     if (defaultRole) {
@@ -110,7 +129,9 @@ export function CreateInviteDialog() {
   // Current Selected Role
   // ----------------------------------------------------------
 
-  const selectedRole = roles?.find((role) => role.code === selectedRoleCode)
+  const selectedRole = filteredRoles?.find(
+    (role) => role.code === selectedRoleCode
+  )
 
   const scopeType = selectedRole?.scope_type
 
@@ -158,6 +179,12 @@ export function CreateInviteDialog() {
     enabled: shouldFetchAcademies,
   })
 
+  useEffect(() => {
+    if (isAcademyAdmin && scopeType === "academy" && academyID) {
+      setValue("scope_id", academyID)
+    }
+  }, [isAcademyAdmin, scopeType, academyID, setValue])
+
   // ----------------------------------------------------------
   // Submit
   // ----------------------------------------------------------
@@ -175,7 +202,7 @@ export function CreateInviteDialog() {
 
         role: (defaultRole?.code ?? undefined) as CreateInviteSchema["role"],
 
-        scope_id: undefined,
+        scope_id: isAcademyAdmin ? academyID : undefined,
 
         scope_type: defaultRole?.scope_type,
       })
@@ -280,7 +307,11 @@ export function CreateInviteDialog() {
                   onValueChange={(value) => {
                     field.onChange(value)
 
-                    setValue("scope_id", "")
+                    if (isAcademyAdmin && academyID) {
+                      setValue("scope_id", academyID)
+                    } else {
+                      setValue("scope_id", "")
+                    }
                   }}
                 >
                   <SelectTrigger className="w-full">
@@ -292,7 +323,7 @@ export function CreateInviteDialog() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    {roles?.map((role) => (
+                    {filteredRoles?.map((role) => (
                       <SelectItem key={role.id} value={role.code}>
                         {role.display_name}
                       </SelectItem>
@@ -390,7 +421,7 @@ export function CreateInviteDialog() {
 
           {/* ACADEMY */}
 
-          {scopeType === "academy" && (
+          {scopeType === "academy" && !isAcademyAdmin && (
             <div className="space-y-3">
               <div>
                 <label className="block text-sm font-medium">Academy</label>

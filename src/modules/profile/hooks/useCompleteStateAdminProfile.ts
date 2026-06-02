@@ -1,22 +1,56 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation }
+from "@tanstack/react-query"
 
-import { toast } from "sonner"
+import { toast }
+from "sonner"
 
-import { router } from "@/app/router"
+import { router }
+from "@/app/router"
 
-import { completeStateAdminProfile } from "../services/profile.service"
+import { queryClient }
+from "@/shared/lib/query-client"
+
+import { useAuthStore }
+from "@/shared/store/auth.store"
+
+import { completeStateAdminProfile }
+from "../services/profile.service"
 
 export function useCompleteStateAdminProfile() {
   return useMutation({
     mutationFn:
       completeStateAdminProfile,
 
-    onSuccess() {
+    async onSuccess() {
       toast.success(
         "Profile completed successfully"
       )
 
-      router.navigate("/")
+      await queryClient.refetchQueries({
+        queryKey: [
+          "current-user",
+        ],
+      })
+
+      const profile =
+        useAuthStore
+          .getState()
+          .profile
+
+      if (profile) {
+        useAuthStore
+          .getState()
+          .setProfile({
+            ...profile,
+
+            profile_completed:
+              true,
+          })
+      }
+
+      await router.navigate(
+        "/dashboard"
+      )
     },
   })
 }

@@ -13,13 +13,13 @@ from "@/shared/lib/query-client"
 import { useAuthStore }
 from "@/shared/store/auth.store"
 
-import { completeDistrictCoachProfile }
+import { completeAcademyCoachProfile }
 from "../services/profile.service"
 
-export function useCompleteDistrictCoachProfile() {
+export function useCompleteAcademyCoachProfile() {
   return useMutation({
     mutationFn:
-      completeDistrictCoachProfile,
+      completeAcademyCoachProfile,
 
     async onSuccess() {
       toast.success(
