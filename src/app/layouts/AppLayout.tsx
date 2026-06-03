@@ -10,12 +10,30 @@ import {
 
 import { Separator } from "@/shared/components/ui/separator"
 
-function formatPageName(pathname: string) {
-  const segment = pathname.split("/").filter(Boolean).pop() ?? "dashboard"
+function formatPageName(
+  pathname: string
+) {
+
+  if (
+    pathname.startsWith("/players/")
+  ) {
+
+    return "Player Profile"
+  }
+
+  const segment =
+    pathname
+      .split("/")
+      .filter(Boolean)
+      .pop() ?? "dashboard"
 
   return segment
     .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase())
+    .replace(
+      /\b\w/g,
+      (char) =>
+        char.toUpperCase()
+    )
 }
 
 export default function AppLayout() {

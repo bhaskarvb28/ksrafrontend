@@ -10,12 +10,13 @@ import DashboardPage from "@/modules/dashboard/pages/Dashboard"
 
 import InvitesPage from "@/modules/Invites/pages/Invites"
 
-import { CompleteProfilePage }
-from "@/modules/profile/pages/CompleteProfilePage"
+import { CompleteProfilePage } from "@/modules/profile/pages/CompleteProfilePage"
 
-import { ROLE_CODES }
-from "@/modules/auth/types/role.types"
+import { ROLE_CODES } from "@/modules/auth/types/role.types"
 import AcademiesPage from "@/modules/academies/pages/AcademiesPage"
+import { PlayersPage } from "@/modules/players/pages/PlayersPage"
+
+import { PlayerProfilePage } from "@/modules/players/pages/PlayerProfilePage"
 
 export const protectedRoutes = [
   {
@@ -92,21 +93,34 @@ export const protectedRoutes = [
           // ------------------------------------------------
 
           {
-            element: (
-              <RoleGuard 
-                allowedRoles={[
-                  ROLE_CODES.DISTRICT_ADMIN,
-                ]}
-              />
-            ),
+            element: <RoleGuard allowedRoles={[ROLE_CODES.DISTRICT_ADMIN]} />,
 
             children: [
               {
                 path: "/academies",
+                element: <AcademiesPage />,
+              },
+            ],
+          },
 
-                element: <AcademiesPage />
-              }
-            ]
+          // ------------------------------------------------
+          // Players
+          // ------------------------------------------------
+
+          {
+            element: <RoleGuard allowedRoles={[ROLE_CODES.ACADEMY_ADMIN]} />,
+
+            children: [
+              {
+                path: "/players",
+                element: <PlayersPage />,
+              },
+
+              {
+                path: "/players/:playerID",
+                element: <PlayerProfilePage />,
+              },
+            ],
           },
         ],
       },

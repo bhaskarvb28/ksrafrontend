@@ -4,6 +4,7 @@ import {
   DashboardSquare01Icon,
   GlobalEducationIcon,
   SentIcon,
+  UserGroupIcon,
 } from "@hugeicons/core-free-icons"
 
 import type { RoleCode }
@@ -73,6 +74,16 @@ export const sidebarRoutes:
           ROLE_CODES.STATE_ADMIN,
           ROLE_CODES.DISTRICT_ADMIN,
         ],
+      },
+
+      {
+        title: "Players",
+        path: "/players",
+        icon: UserGroupIcon,
+
+        allowedRoles: [
+          ROLE_CODES.ACADEMY_ADMIN,
+        ]
       },
     ],
   },
