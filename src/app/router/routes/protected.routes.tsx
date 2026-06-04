@@ -17,6 +17,8 @@ import AcademiesPage from "@/modules/academies/pages/AcademiesPage"
 import { PlayersPage } from "@/modules/players/pages/PlayersPage"
 
 import { PlayerProfilePage } from "@/modules/players/pages/PlayerProfilePage"
+import { BuildingsPage } from "@/modules/buildings/pages/BuildingsPage"
+import { BuildingProfilePage } from "@/modules/buildings/pages/BuildingProfilePage"
 
 export const protectedRoutes = [
   {
@@ -121,6 +123,24 @@ export const protectedRoutes = [
                 element: <PlayerProfilePage />,
               },
             ],
+          },
+
+          {
+            element: <RoleGuard allowedRoles={[ROLE_CODES.ACADEMY_ADMIN]} />,
+
+            children: [
+              {
+                path: "/academies/buildings",
+                element: <BuildingsPage />
+              },
+
+              {
+                path:
+                  "/academies/buildings/:buildingID",
+
+                element: <BuildingProfilePage />,
+              },
+            ]
           },
         ],
       },

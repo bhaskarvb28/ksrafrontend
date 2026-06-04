@@ -5,6 +5,7 @@ import {
   GlobalEducationIcon,
   SentIcon,
   UserGroupIcon,
+  Building03Icon,
 } from "@hugeicons/core-free-icons"
 
 import type { RoleCode }
@@ -85,6 +86,15 @@ export const sidebarRoutes:
           ROLE_CODES.ACADEMY_ADMIN,
         ]
       },
+
+      {
+        title: "Buildings",
+        path: "/academies/buildings",
+        icon: Building03Icon,
+        allowedRoles: [
+          ROLE_CODES.ACADEMY_ADMIN,
+        ],
+      }
     ],
   },
 ]
